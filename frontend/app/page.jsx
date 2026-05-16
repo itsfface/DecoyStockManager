@@ -16,29 +16,30 @@ export default function DecoyLogin() {
     const { login, isLoggingIn } = useAuthStore();
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        
-        if (!employeeId || !password) return;
+    e.preventDefault();
 
-        try {
-            const formData = { employeeId, password };
-            const loggedInUser = await login(formData);
+    if (!employeeId || !password) return;
 
-            if (!loggedInUser) return; // Errors are handled by the store's toast
+    try {
+        const formData = { employeeId, password };
+        const loggedInUser = await login(formData);
 
-            // Route based on role
+        if (!loggedInUser) return;
+
+        setTimeout(() => {
             if (loggedInUser.role === "ADMIN") {
                 router.push("/dashboard");
             } else if (loggedInUser.role === "STORE MANAGER") {
                 router.push("/employee-dashboard");
             } else {
-                // Fallback route
                 router.push("/dashboard");
             }
-        } catch (error) {
-            console.error("Login route failed:", error);
-        }
-    };
+        }, 500);
+
+    } catch (error) {
+        console.error("Login route failed:", error);
+    }
+};
 
     return (
         <div className="min-h-screen bg-neutral-50/50 flex flex-col justify-center items-center p-4 sm:p-6 font-sans text-neutral-900 selection:bg-neutral-200">
