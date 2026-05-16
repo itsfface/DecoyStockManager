@@ -141,7 +141,10 @@ export const me = async (req, res) => {
 export const logOut = async (req, res) => {
     try {
         res.cookie('accessToken', '', {
-            expires: new Date(0)
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            expires: new Date(0),
         })
 
         return res.status(200).json({
