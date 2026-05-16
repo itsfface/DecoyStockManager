@@ -10,8 +10,6 @@ export const useAuthStore = create((set) => ({
     isAuthenticated: false,
     loginUser: null,
 
-
-
     addEmployee : async (formData) =>{
         try {
             const { data } = await axiosInstance.post('/user/register', formData)
