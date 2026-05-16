@@ -72,13 +72,14 @@ export const login = async (req, res) => {
             })
         }
 
-        const accessToken = jwt.sign({ id: userExists.employeeId, role: userExists.role,storeCode: userExists.store.storeCode, }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        const accessToken = jwt.sign({ id: userExists.employeeId, role: userExists.role, storeCode: userExists.store.storeCode, }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-        const cookiOptions = {
+        const cookieOptions = {
             httpOnly: true,
             secure: true,
-            maxAge: 24 * 60 * 60 * 1000
-        }
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000,
+        };
         res.cookie('accessToken', accessToken, cookiOptions)
 
         res.status(200).json({
@@ -108,7 +109,7 @@ export const me = async (req, res) => {
         const employeeId = req.user?.id;
         console.log(employeeId);
         console.log(req.user);
-        
+
 
 
         const user = await User.findOne({ employeeId }).select('-password').populate('store')
@@ -137,7 +138,7 @@ export const me = async (req, res) => {
     }
 }
 
-export const logOut = async( req, res) =>{
+export const logOut = async (req, res) => {
     try {
         res.cookie('accessToken', '', {
             expires: new Date(0)
@@ -147,7 +148,7 @@ export const logOut = async( req, res) =>{
             success: true,
             message: "Logged out succesfully"
         })
-        
+
     } catch (error) {
         res.status(500).json({
             success: false,
