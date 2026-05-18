@@ -142,24 +142,27 @@ export const me = async (req, res) => {
 
 export const logOut = async (req, res) => {
     try {
-        res.cookie('accessToken', '', {
+
+        res.clearCookie("accessToken", {
             httpOnly: true,
             secure: true,
             sameSite: "none",
             domain: ".decoyluxury.com",
             path: "/",
-            expires: new Date(0),
-        })
+        });
 
         return res.status(200).json({
             success: true,
-            message: "Logged out succesfully"
-        })
+            message: "Logged out successfully"
+        });
 
     } catch (error) {
-        res.status(500).json({
+
+        console.log(error);
+
+        return res.status(500).json({
             success: false,
             message: "Failed in Log Out controller."
-        })
+        });
     }
 }
