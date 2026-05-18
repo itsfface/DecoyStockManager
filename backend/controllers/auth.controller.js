@@ -146,6 +146,8 @@ export const logOut = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: ".decoyluxury.com",
+            path: "/",
             expires: new Date(0),
         })
 
