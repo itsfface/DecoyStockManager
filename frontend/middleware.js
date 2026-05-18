@@ -5,6 +5,9 @@ export async function middleware(request) {
   const token = request.cookies.get("accessToken")?.value;
   const path = request.nextUrl.pathname;
 
+  console.log("TOKEN:", token);
+console.log("SECRET:", process.env.JWT_SECRET);
+
   if (!token && (path.startsWith("/dashboard") || path.startsWith("/employee-dashboard"))) {
     return NextResponse.redirect(new URL("/", request.url));
   }
