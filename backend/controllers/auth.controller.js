@@ -143,12 +143,16 @@ export const me = async (req, res) => {
 export const logOut = async (req, res) => {
     try {
 
-        res.clearCookie("accessToken", {
+        res.setHeader("Cache-Control", "no-store");
+
+        res.cookie("accessToken", "", {
             httpOnly: true,
             secure: true,
             sameSite: "none",
             domain: ".decoyluxury.com",
             path: "/",
+            expires: new Date(0),
+            maxAge: 0,
         });
 
         return res.status(200).json({
